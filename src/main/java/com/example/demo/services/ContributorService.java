@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.dao.ContributorRepository;
 import com.example.demo.dto.ContributorDto;
 import com.example.demo.entities.Contributors;
+import com.example.demo.generator.PasswordGenerator;
 import com.example.demo.validator.EmailValidator;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ContributorService {
     }
 
     private void validateContributor(Contributors contributors) {
-        if (contributors.getId() != null) {
+        if (contributors.getId() == null) {
             throw new IllegalArgumentException("ID should be null for new contributors");
         }
         if (contributors.getName() == null || contributors.getEmail() == null || contributors.getPassword() == null) {
@@ -30,6 +31,9 @@ public class ContributorService {
         }
         if (!EmailValidator.isValidEmail(contributors.getEmail())) {
             throw new IllegalArgumentException("Invalid email format");
+        }
+        if (contributors.getPassword() == null ) {
+            contributors.setPassword(PasswordGenerator.generatePassword(10));
         }
     }
 
