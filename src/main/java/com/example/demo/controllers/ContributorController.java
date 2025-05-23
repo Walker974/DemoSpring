@@ -58,6 +58,7 @@ public class ContributorController {
     }
 
     @RequestMapping(value = "/contributor/{cId}", method = RequestMethod.DELETE)
+    @Operation(summary = "Delete contributor", description = "Delete a contributor by their ID")
     public void deleteContributor(@PathVariable Long cId) {
 
         contributorService.deleteContributor(cId);
