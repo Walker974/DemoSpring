@@ -44,8 +44,8 @@ public class ContributorController {
     }
 
     @RequestMapping(value = "/contributor/{cId}", method = RequestMethod.PUT)
-    public ResponseEntity<Contributors> updateContributor(@PathVariable Long cId, @RequestBody Contributors contributors) {
-        Contributors contributor = contributorService.getContributorById(cId);
+    public ResponseEntity<ContributorDto> updateContributor(@PathVariable Long cId, @RequestBody ContributorDto data) {
+        ContributorDto contributor = ContributorConverter.toDto(contributorService.updateContributor(cId, ContributorConverter.toEntity(data)));
         if (contributor == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
