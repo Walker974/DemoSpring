@@ -22,11 +22,11 @@ public class ContributorService {
     }
 
     private void validateContributor(Contributors contributors) {
-        if (contributors.getId() != null) {
+        if (contributors.getId() == null) {
             throw new IllegalArgumentException("ID should be null for new contributors");
         }
-        if (contributors.getName() == null || contributors.getEmail() == null || contributors.getPassword() == null) {
-            throw new IllegalArgumentException("Name, email, and password cannot be null");
+        if (contributors.getName() == null || contributors.getEmail() == null) {
+            throw new IllegalArgumentException("Name and email cannot be null");
         }
         if (!EmailValidator.isValidEmail(contributors.getEmail())) {
             throw new IllegalArgumentException("Invalid email format");
