@@ -2,6 +2,8 @@ package com.example.demo.dao;
 
 import com.example.demo.entities.Contributors;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -9,5 +11,6 @@ import java.util.List;
 public interface ContributorRepository extends JpaRepository<Contributors, Long> {
     Contributors findByEmail(String email);
     Contributors findByName(String name);
-    Contributors findById(long id);
+    @Query("SELECT u FROM Contributors u WHERE LOWER(u.name) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<Contributors> searchByName(@Param("name") String name);
 }
