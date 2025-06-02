@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.dto.ContributorDto;
-import com.example.demo.entities.Contributors;
 import com.example.demo.mapper.ContributorConverter;
 import com.example.demo.services.ContributorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,7 +59,13 @@ public class ContributorController {
     @RequestMapping(value = "/contributor/{cId}", method = RequestMethod.DELETE)
     @Operation(summary = "Delete contributor", description = "Delete a contributor by their ID")
     public void deleteContributor(@PathVariable Long cId) {
-
         contributorService.deleteContributor(cId);
+    }
+
+    @RequestMapping(value = "/contributor/search", method = RequestMethod.GET)
+    @Operation(summary = "Search contributors by name", description = "Search for contributors by name")
+    public ResponseEntity<List<ContributorDto>> searchByName(@RequestParam String keyword) {
+        List<ContributorDto> contributors = ContributorConverter.toDtoList(contributorService.searchContributors(keyword));
+        return ResponseEntity.status(HttpStatus.OK).body(contributors);
     }
 }
