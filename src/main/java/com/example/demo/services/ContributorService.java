@@ -35,6 +35,7 @@ public class ContributorService {
         if (contributors.getPassword() == null ) {
             contributors.setPassword(PasswordGenerator.generatePassword(10));
         }
+        contributors.setId(null);
     }
 
     public void createContributor(Contributors contributors) {
@@ -51,13 +52,11 @@ public class ContributorService {
         return contributorRepository.findById(id).orElse(null);
     }
 
-    @Transactional
     public void deleteContributor(Long id) {
         // Logic to delete a user by ID
         contributorRepository.deleteById(id);
     }
 
-    @Transactional
     public Contributors updateContributor(Long id, Contributors data) {
         Contributors existingContributor = contributorRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Contributor not found with ID: " + id));
@@ -76,5 +75,7 @@ public class ContributorService {
         return contributorRepository.save(existingContributor);
     }
 
-
+    public List<Contributors> searchContributors(String keyword) {
+        return contributorRepository.searchByName(keyword.trim());
+    }
 }
